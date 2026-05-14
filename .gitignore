@@ -22,8 +22,14 @@ prisma/dev.db-*
 *.sqlite3
 
 # Repomix output
+.repomixignore
+repomix.config.json
 repomix-output.*
 *.repomix.*
+
+# Local agent/repo notes
+AGENTS.md
+README.md
 
 # OS files
 .DS_Store
