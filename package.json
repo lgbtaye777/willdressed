@@ -10,6 +10,7 @@
     "build": "vite build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "prisma:generate": "prisma generate",
+    "prisma:deploy": "node prisma/ensure-sqlite-file.js && prisma migrate deploy",
     "prisma:migrate": "node prisma/ensure-sqlite-file.js && prisma migrate dev",
     "prisma:seed": "prisma db seed",
     "db:seed": "prisma db seed"
