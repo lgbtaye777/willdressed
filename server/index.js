@@ -182,8 +182,15 @@ app.use('/api/orders', ordersRouter);
 
 if (process.env.NODE_ENV === 'production') {
   const clientDist = path.resolve(__dirname, '../dist/client');
-  app.use(express.static(clientDist));
+
+  app.use(express.static(clientDist, {
+    index: false,
+    maxAge: '30d',
+    immutable: true,
+  }));
+
   app.get('*', (req, res) => {
+    res.set('Cache-Control', 'no-cache');
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
