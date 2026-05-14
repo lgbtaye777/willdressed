@@ -212,10 +212,11 @@ export function initAccountUi() {
 
   registerForm?.addEventListener('submit', async event => {
     event.preventDefault();
+    const credentials = formToCredentials(registerForm);
     setBusy(true);
 
     try {
-      await register(formToCredentials(registerForm));
+      await register(credentials);
       registerForm.reset();
       setView('account');
       setStatus('Аккаунт создан. Ты вошёл в профиль.', 'success');
@@ -231,10 +232,11 @@ export function initAccountUi() {
 
   loginForm?.addEventListener('submit', async event => {
     event.preventDefault();
+    const credentials = formToCredentials(loginForm);
     setBusy(true);
 
     try {
-      await login(formToCredentials(loginForm));
+      await login(credentials);
       loginForm.reset();
       setView('account');
       setStatus('Вход выполнен.', 'success');
@@ -250,10 +252,11 @@ export function initAccountUi() {
 
   profileForm?.addEventListener('submit', async event => {
     event.preventDefault();
+    const profile = formToProfile(profileForm);
     setBusy(true);
 
     try {
-      await saveProfile(formToProfile(profileForm));
+      await saveProfile(profile);
       setStatus('Параметры сохранены.', 'success');
       showToast('Параметры сохранены.', 'success');
     } catch (error) {
