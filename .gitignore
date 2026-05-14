@@ -30,6 +30,7 @@ repomix-output.*
 # Local agent/repo notes
 AGENTS.md
 README.md
+vdsina-vps-docs-master/
 
 # OS files
 .DS_Store
