@@ -16,6 +16,7 @@ COPY server ./server
 COPY src ./src
 COPY public ./public
 
+ENV DATABASE_URL=file:./dev.db
 RUN npm run prisma:generate && npm run build
 
 ENV NODE_ENV=production
