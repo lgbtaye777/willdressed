@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  role         String       @default("USER")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  profile      UserProfile?
+  sessions     Session[]
+  cartItems    CartItem[]
+  orders       Order[]
+}
+
+model UserProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  heightCm      Int?
+  weightKg      Int?
+  chestCm       Int?
+  waistCm       Int?
+  hipsCm        Int?
+  shoulderCm    Int?
+  sleeveCm      Int?
+  inseamCm      Int?
+  footLengthCm  Int?
+  preferredFit  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  type        String
+  category    String?
+  price       Int
+  imageUrl    String
+  modelUrl    String?
+  gallery     Json?
+  sizes       Json?
+  sizeChart   Json?
+  composition String?
+  care        String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  size      String?
+  qty       Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId, size])
+  @@index([userId])
+  @@index([productId])
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  userId        String?
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  city          String?
+  address       String?
+  comment       String?
+  status        String      @default("NEW")
+  total         Int         @default(0)
+  measurements  Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items         OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  productId String?
+  slug      String
+  name      String
+  price     Int
+  size      String?
+  qty       Int
+  imageUrl  String?
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model NewsletterSubscriber {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  marketingConsent Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

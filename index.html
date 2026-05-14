@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WILLDRESSED — Главная коллекция</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/src/styles/css/style.css">
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <header class="dynamic-header" data-dynamic-header aria-hidden="true">
+    <a class="dynamic-header__brand" href="#hero" aria-label="Back to hero">WILLDRESSED</a>
+    <nav class="dynamic-header__nav" aria-label="Page navigation">
+      <a href="#brand-story">О бренде</a>
+      <a href="#latest-drops">Новинки</a>
+      <a href="#catalog">Каталог</a>
+      <button class="dynamic-header__account account-trigger" type="button" data-account-open>Аккаунт</button>
+      <button class="dynamic-header__cart cart-trigger" type="button" data-cart-open aria-label="Open cart">
+        Корзина <span data-cart-count>0</span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    
+    <video class="video-bg video-desktop" data-src="/videos/background.webm" muted loop playsinline preload="metadata"></video>
+    <video class="video-bg video-mobile"  data-src="/videos/background_mobile.webm" muted loop playsinline preload="metadata"></video>
+
+    <div class="blob-transition" id="blobTransition">
+      <div class="blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+      </div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="video-overlay"></div>
+    <div class="blur-veil" id="blurVeil"></div>
+
+    <div class="hero-content" id="heroContent">
+      <div class="eyebrow">Весенняя коллекция 2026</div>
+      <h1 class="hero-headline">
+        WILLDRESSED
+      </h1>
+      <p class="hero-sub">
+        Российский стритвир бренд одежды и аксессуаров
+      </p>
+      <div class="hero-actions">
+        <a href="#catalog" class="btn btn-primary">к каталогу</a>
+        <a href="#brand-story" class="btn btn-secondary">о бренде</a>
+        <button class="btn btn-secondary account-trigger" type="button" data-account-open>Аккаунт</button>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">
+      <span>Вниз</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 3v10M4 9l4 4 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="brand-story-section content-section" id="brand-story" aria-labelledby="brand-story-title">
+    <div class="brand-story__scroll">
+      <div class="brand-story__sticky">
+        <div class="brand-story__intro" data-brand-story-intro>
+          <div class="brand-story__intro-inner">
+            <p class="section-label">О бренде</p>
+            <h2 id="brand-story-title">Гримуар бренда</h2>
+
+            <p class="brand-story__intro-text brand-story__intro-text--primary">
+              Магия не появляется из ниоткуда — она создается руками. Мы черпаем вдохновение в лесных пейзажах и воплощаем его в плотном дениме, крупной вязке и струящихся тканях. Погрузись в наш процесс и посмотри, как рождается коллекция.
+            </p>
+
+            <p class="brand-story__intro-text brand-story__intro-text--secondary" data-brand-story-intro-extra>
+              Мы создаем одежду не для шумных мегаполисов, а для тех моментов, когда хочется сбежать в уют. Листай ниже, чтобы узнать, как эскизы и лесные фактуры превращаются в твою любимую вещь.
+            </p>
+
+            <div class="brand-story__intro-hint">
+              Листай, чтобы раскрыть гримуар
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-story__layout" data-brand-story-slides>
+          <div class="brand-story__copy">
+            <div class="brand-story__slides-copy">
+              <article class="brand-story__text-slide is-active" data-story-text-slide="0">
+                <span class="brand-story__step">01 / 05</span>
+                <h2>Идея и корни</h2>
+                <p>
+                  От первого наброска до готового силуэта. Мы черпаем идеи не в быстротечных трендах, а в лесной тишине. На нашем рабочем столе эскизы соседствуют с настоящими шишками и мхом — именно они задают правильные формы и цвета для будущих коллекций.
+                </p>
+              </article>
+
+              <article class="brand-story__text-slide" data-story-text-slide="1">
+                <span class="brand-story__step">02 / 05</span>
+                <h2>Фактуры леса</h2>
+                <p>
+                  Плотный вельвет, крупная вязка и натуральный хлопок. Мы собираем наши мудборды из того, что можно найти под ногами: древесная кора, сухие листья папоротника и глубокие землистые оттенки. Одежда должна быть такой же приятной на ощупь, как мох на деревьях.
+                </p>
+              </article>
+
+              <article class="brand-story__text-slide" data-story-text-slide="2">
+                <span class="brand-story__step">03 / 05</span>
+                <h2>Внимание к деталям</h2>
+                <p>
+                  Настоящая ценность кроется в процессе. Каждая завязка, каждый фактурный шов и тканевый цветок создаются с мыслью о том, чтобы вещь служила долго. Это не просто производство, это крафт, благодаря которому одежда ощущается живой.
+                </p>
+              </article>
+
+              <article class="brand-story__text-slide" data-story-text-slide="3">
+                <span class="brand-story__step">04 / 05</span>
+                <h2>Твоя униформа</h2>
+                <p>
+                  Неважно, собираешь ли ты травы в лесу или просто пьешь кофе в городе — это одежда для тех, кто ищет немного волшебства в каждом дне и не боится быть собой.
+                </p>
+              </article>
+
+              <article class="brand-story__text-slide" data-story-text-slide="4">
+                <span class="brand-story__step">05 / 05</span>
+                <h2>Сказка с доставкой</h2>
+                <p>
+                  Твой заказ приезжает не в бездушном пластике, а в плотной крафтовой коробке. Внутри — шуршащая бумага, веточка сухоцвета и та самая вещь, которую ты ждал. Момент распаковки, когда наша история становится твоей.
+                </p>
+              </article>
+            </div>
+          </div>
+
+          <div class="brand-story__visual">
+            <div class="brand-story__image-stack">
+              <figure class="brand-story__image-slide is-active" data-story-image-slide="0">
+                <img src="/images/section2_images/slide1.png" alt="Sketches and forest textures inspiring the collection" loading="lazy">
+              </figure>
+
+              <figure class="brand-story__image-slide" data-story-image-slide="1">
+                <img src="/images/section2_images/slide2.png" alt="Natural textures and materials for the collection" loading="lazy">
+              </figure>
+
+              <figure class="brand-story__image-slide" data-story-image-slide="2">
+                <img src="/images/section2_images/slide3.png" alt="Handcrafted details and textile work" loading="lazy">
+              </figure>
+
+              <figure class="brand-story__image-slide" data-story-image-slide="3">
+                <img src="/images/section2_images/slide4.png" alt="Finished outfit story" loading="lazy">
+              </figure>
+
+              <figure class="brand-story__image-slide" data-story-image-slide="4">
+                <img src="/images/section2_images/slide5.png" alt="Packaging and delivery story" loading="lazy">
+              </figure>
+            </div>
+
+            <div class="brand-story__progress" aria-hidden="true">
+              <span data-story-progress></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fit-finder-section content-section" id="fit-finder" aria-labelledby="fit-finder-title">
+    <div class="fit-finder__inner fit-finder__inner--compact">
+      <div class="fit-finder__intro">
+        <p class="section-label">Fit Finder</p>
+        <h2 class="section-heading" id="fit-finder-title">Укажи свои размеры</h2>
+        <p class="section-paragraph">
+          Сохраним параметры и покажем рекомендуемый размер для вещей из капсулы.
+        </p>
+        <div class="fit-finder__result" data-fit-finder-result>
+          Рекомендации появятся в каталоге и карточке товара.
+        </div>
+      </div>
+
+        <form class="fit-finder-form fit-card" data-fit-finder-form>
+          <div class="fit-measure" data-fit-measure>
+            <div class="fit-measure__header">
+              <label class="fit-measure__label" for="fit-height">Рост</label>
+              <output class="fit-measure__value" data-fit-output="heightCm">170 см</output>
+            </div>
+            <div class="fit-slider-shell">
+              <input id="fit-height" name="heightCm" type="range" min="140" max="210" step="1" value="170" data-unit="см">
+              <span class="fit-slider-value" data-fit-floating-value>170 см</span>
+            </div>
+          </div>
+
+          <div class="fit-measure" data-fit-measure>
+            <div class="fit-measure__header">
+              <label class="fit-measure__label" for="fit-weight">Вес</label>
+              <output class="fit-measure__value" data-fit-output="weightKg">60 кг</output>
+            </div>
+            <div class="fit-slider-shell">
+              <input id="fit-weight" name="weightKg" type="range" min="35" max="130" step="1" value="60" data-unit="кг">
+              <span class="fit-slider-value" data-fit-floating-value>60 кг</span>
+            </div>
+          </div>
+
+          <div class="fit-measure" data-fit-measure>
+            <div class="fit-measure__header">
+              <label class="fit-measure__label" for="fit-chest">Грудь</label>
+              <output class="fit-measure__value" data-fit-output="chestCm">88 см</output>
+            </div>
+            <div class="fit-slider-shell">
+              <input id="fit-chest" name="chestCm" type="range" min="65" max="130" step="1" value="88" data-unit="см">
+              <span class="fit-slider-value" data-fit-floating-value>88 см</span>
+            </div>
+          </div>
+
+          <div class="fit-measure" data-fit-measure>
+            <div class="fit-measure__header">
+              <label class="fit-measure__label" for="fit-waist">Талия</label>
+              <output class="fit-measure__value" data-fit-output="waistCm">68 см</output>
+            </div>
+            <div class="fit-slider-shell">
+              <input id="fit-waist" name="waistCm" type="range" min="50" max="120" step="1" value="68" data-unit="см">
+              <span class="fit-slider-value" data-fit-floating-value>68 см</span>
+            </div>
+          </div>
+
+          <div class="fit-measure" data-fit-measure>
+            <div class="fit-measure__header">
+              <label class="fit-measure__label" for="fit-hips">Бёдра</label>
+              <output class="fit-measure__value" data-fit-output="hipsCm">94 см</output>
+            </div>
+            <div class="fit-slider-shell">
+              <input id="fit-hips" name="hipsCm" type="range" min="70" max="140" step="1" value="94" data-unit="см">
+              <span class="fit-slider-value" data-fit-floating-value>94 см</span>
+            </div>
+          </div>
+
+          <div class="fit-preference" data-fit-preference>
+            <div class="fit-measure__header">
+              <span class="fit-measure__label">Посадка</span>
+              <span class="fit-measure__value" data-fit-preference-label>База</span>
+            </div>
+            <div class="fit-segmented" role="radiogroup" aria-label="Preferred fit">
+              <button type="button" class="fit-segmented__option" data-fit-value="slim" role="radio" aria-checked="false">Точнее</button>
+              <button type="button" class="fit-segmented__option is-active" data-fit-value="regular" role="radio" aria-checked="true">База</button>
+              <button type="button" class="fit-segmented__option" data-fit-value="oversized" role="radio" aria-checked="false">Свободно</button>
+            </div>
+            <input type="hidden" name="preferredFit" value="regular">
+          </div>
+
+          <div class="fit-finder__actions">
+            <button class="btn btn-primary" type="submit">Сохранить параметры</button>
+          </div>
+        </form>
+    </div>
+  </section>
+
+  <section class="section-stub latest-drops-section content-section" id="latest-drops" aria-labelledby="latest-drops-title">
+    <div class="container latest-drops-layout">
+      <div class="latest-drops-top">
+        <div class="latest-drops-copy">
+          <span class="section-label">Новая коллекция</span>
+          <h2 class="section-heading" id="latest-drops-title">Новинки</h2>
+          <p class="section-paragraph">
+            Ключевые вещи из новой коллекции: сочетайте их, собирайте полные образы,
+            а затем переходите к каждой детали в каталоге.
+          </p>
+        </div>
+
+        <a class="outfit-piece outfit-piece--hat" href="#catalog-hat" aria-label="Open knitted hat in catalog">
+          <div class="product-3d-frame" data-model-id="hat"></div>
+        </a>
+      </div>
+
+      <div class="latest-drops-showcase" aria-label="Latest outfit pieces">
+        <figure class="latest-drops-look" data-latest-showcase>
+          <video
+            class="latest-drops-look__video"
+            src="/videos/latest_drops_showcase.webm"
+            muted
+            playsinline
+            preload="metadata"
+            poster="/images/products/dress-001/dress-001-character-sitting.webp"
+            data-latest-showcase-video
+          ></video>
+          <div class="latest-drops-look__carousel" aria-hidden="true" data-latest-showcase-carousel>
+            <img class="is-active" src="/images/products/dress-001/dress-001-front-clean.webp" alt="" loading="lazy">
+            <img src="/images/products/hat-001/hat-001-thumbnail.webp" alt="" loading="lazy">
+            <img src="/images/products/dress-001/dress-001-side-left.webp" alt="" loading="lazy">
+            <img src="/images/products/hat-001/hat-001-top.webp" alt="" loading="lazy">
+            <img src="/images/products/dress-001/dress-001-back.webp" alt="" loading="lazy">
+            <img src="/images/products/hat-001/hat-001-bottom.webp" alt="" loading="lazy">
+          </div>
+        </figure>
+
+        <a class="outfit-piece outfit-piece--dress" href="#catalog-dress" aria-label="Open sculpted dress in catalog">
+          <div class="product-3d-frame" data-model-id="dress"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-section content-section" id="catalog" aria-labelledby="catalog-title">
+    <div class="catalog-heading">
+      <p class="section-label">Каталог</p>
+      <h2 class="section-heading" id="catalog-title">Капсульная коллекция</h2>
+      <p class="section-paragraph">
+        Компактная система гардероба, созданная из мягких силуэтов, чистых линий и вещей, которые хочется рассматривать.
+      </p>
+    </div>
+
+    <div class="catalog-toolbar">
+      <p class="catalog-count" data-catalog-count>Загрузка товаров...</p>
+    </div>
+
+    <div class="catalog-grid" data-catalog-grid>
+      <div class="catalog-loading">Загрузка каталога...</div>
+    </div>
+  </section>
+
+  <section class="newsletter-section content-section" id="newsletter" aria-labelledby="newsletter-title">
+    <div class="newsletter-shell">
+      <p class="section-label">Рассылка</p>
+      <h2 class="newsletter-title" id="newsletter-title">УЗНАЙ ПЕРВЫМ</h2>
+      <p class="newsletter-copy">
+        ПОДПИШИСЬ НА РАССЫЛКУ WILLDRESSED, ЧТОБЫ ПЕРВЫМ УЗНАВАТЬ О СКИДКАХ, АКЦИЯХ И ЭКСКЛЮЗИВНЫХ ПРЕДЛОЖЕНИЯХ
+      </p>
+
+      <form class="newsletter-form" data-newsletter-form>
+        <label class="newsletter-field">
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+        </label>
+
+        <label class="newsletter-consent">
+          <input name="marketingConsent" type="checkbox" required>
+          <span>Я согласен с политикой конфиденциальности WILLDRESSED и хочу получать рекламную рассылку</span>
+        </label>
+
+        <button class="btn btn-primary" type="submit">Подписаться</button>
+        <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer__main">
+      <nav class="site-footer__nav" aria-label="Footer navigation">
+        <a href="#">ОПЛАТА</a>
+        <a href="#">ДОСТАВКА И ВОЗВРАТ</a>
+        <a href="#">ПРАВОВАЯ ИНФОРМАЦИЯ</a>
+        <a href="#">КОНТАКТЫ</a>
+        <a href="#">СЕРТИФИКАТЫ</a>
+        <a href="#">О НАС</a>
+      </nav>
+
+      <div class="site-footer__social" aria-label="Социальные сети">
+        <a href="https://vk.com/understand_or_realize" target="_blank" rel="noopener noreferrer" aria-label="VK">VK</a>
+        <a href="https://t.me/understand_or_realize" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+        <a href="#" aria-label="TikTok">TT</a>
+      </div>
+    </div>
+    <p class="site-footer__credit">Проект выполнен в ходе дипломной работы Зайцевой Дарьи Денисовны</p>
+  </footer>
+
+  <div class="account-modal" data-account-modal hidden>
+    <div class="account-modal__backdrop" data-account-close></div>
+
+    <div class="account-modal__panel" role="dialog" aria-modal="true" aria-labelledby="account-title">
+      <button class="account-modal__close" type="button" data-account-close aria-label="Close account panel">×</button>
+
+      <div class="account-modal__header">
+        <p class="account-modal__eyebrow" data-account-eyebrow>Аккаунт</p>
+        <h2 id="account-title" data-account-title>Создать аккаунт</h2>
+        <p class="account-modal__status account-modal__status--info" data-auth-status aria-live="polite">
+          Сохраните свои мерки, чтобы получать точные рекомендации по размеру.
+        </p>
+      </div>
+
+      <div class="account-view" data-account-view="register">
+        <form class="account-form" data-register-form>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+          </label>
+
+          <label>
+            Пароль
+            <input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="Минимум 8 символов" required>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Создать аккаунт</button>
+
+          <p class="account-switch">
+            Уже есть аккаунт?
+            <button type="button" class="account-link" data-auth-mode="login">Войти</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="account-view" data-account-view="login" hidden>
+        <form class="account-form" data-login-form>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+          </label>
+
+          <label>
+            Пароль
+            <input name="password" type="password" autocomplete="current-password" placeholder="Ваш пароль" required>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Войти</button>
+
+          <p class="account-switch">
+            Нет аккаунта?
+            <button type="button" class="account-link" data-auth-mode="register">Зарегистрироваться</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="account-view" data-account-view="account" hidden>
+        <div class="account-summary">
+          <p class="account-summary__label">Вы вошли как</p>
+          <strong data-account-email></strong>
+        </div>
+
+        <form class="profile-form" data-profile-form>
+          <h3>Ваши параметры</h3>
+          <p class="profile-form__hint">Эти параметры позже будут использоваться для рекомендации размера.</p>
+
+          <div class="profile-grid">
+            <label>Рост, см<input name="heightCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Вес, кг<input name="weightKg" type="number" min="1" inputmode="numeric"></label>
+            <label>Грудь, см<input name="chestCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Талия, см<input name="waistCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Бедра, см<input name="hipsCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Плечи, см<input name="shoulderCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Рукав, см<input name="sleeveCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Внутренний шов, см<input name="inseamCm" type="number" min="1" inputmode="numeric"></label>
+            <label>Стопа, см<input name="footLengthCm" type="number" min="1" inputmode="numeric"></label>
+            <label>
+              Посадка
+              <select name="preferredFit">
+                <option value="">Не выбрано</option>
+                <option value="slim">Точнее (Slim)</option>
+                <option value="regular">База (Regular)</option>
+                <option value="oversized">Свободно (Oversized)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn btn-primary" type="submit">Сохранить профиль</button>
+            <button class="btn btn-secondary" type="button" data-logout>Выйти</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-modal" data-product-modal hidden>
+    <div class="product-modal__backdrop" data-product-close></div>
+
+    <div class="product-modal__panel" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+      <button class="product-modal__close" type="button" data-product-close aria-label="Close product details">×</button>
+
+      <div class="product-modal__content" data-product-modal-content>
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-drawer" data-cart-drawer hidden>
+    <div class="cart-drawer__backdrop" data-cart-close></div>
+
+    <aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <button class="cart-drawer__close" type="button" data-cart-close aria-label="Закрыть корзину">×</button>
+
+      <div class="cart-drawer__header">
+        <p class="section-kicker">Корзина</p>
+        <h2 id="cart-title">Выбранные вещи</h2>
+        <p class="cart-drawer__hint">Проверь размеры перед оформлением</p>
+        <p data-cart-count-label>0 вещей</p>
+      </div>
+
+      <div class="cart-drawer__items" data-cart-items></div>
+
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__total">
+          <span>Итого</span>
+          <strong data-cart-total>0 ₽</strong>
+        </div>
+
+        <button class="btn btn-primary" type="button" data-checkout-open>
+          Оформить заявку
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="checkout-modal" data-checkout-modal hidden>
+    <div class="checkout-modal__backdrop" data-checkout-close></div>
+
+    <div class="checkout-modal__panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="checkout-modal__close" type="button" data-checkout-close aria-label="Закрыть оформление">×</button>
+
+      <div class="checkout-modal__content">
+        <div class="checkout-layout">
+          <aside class="checkout-overview">
+            <p class="section-kicker">Оформление</p>
+            <h2 id="checkout-title">Оформление заявки</h2>
+            <p>Проверь состав заявки и оставь контакты. Это демонстрационное оформление без оплаты.</p>
+
+            <div class="checkout-summary" data-checkout-summary></div>
+          </aside>
+
+          <form class="checkout-form" data-checkout-form>
+            <section class="checkout-form__group">
+              <h3 class="checkout-group-title">Контакты</h3>
+              <label>
+                Имя
+                <input name="customerName" required autocomplete="name">
+              </label>
+
+              <label>
+                Телефон
+                <input name="customerPhone" required autocomplete="tel">
+              </label>
+
+              <label>
+                Email
+                <input name="customerEmail" type="email" autocomplete="email">
+              </label>
+            </section>
+
+            <section class="checkout-form__group">
+              <h3 class="checkout-group-title">Доставка и комментарий</h3>
+              <label>
+                Город
+                <input name="city" autocomplete="address-level2">
+              </label>
+
+              <label>
+                Адрес
+                <textarea name="address" rows="3"></textarea>
+              </label>
+
+              <label>
+                Комментарий
+                <textarea name="comment" rows="3"></textarea>
+              </label>
+            </section>
+
+            <p class="checkout-error" data-checkout-error hidden></p>
+
+            <button class="btn btn-primary" type="submit">
+              Создать заявку
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-cart" type="button" data-floating-cart data-cart-open hidden aria-label="Открыть корзину">
+    <span class="floating-cart__icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M6.8 8.5h10.4l-.7 10.1a2 2 0 0 1-2 1.9h-5a2 2 0 0 1-2-1.9L6.8 8.5Z" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="floating-cart__count" data-floating-cart-count>0</span>
+  </button>
+
+  <div class="app-splash" data-app-splash hidden>
+    <div class="app-splash__backdrop" data-app-splash-close></div>
+
+    <div class="app-splash__panel" role="dialog" aria-modal="true" aria-labelledby="app-splash-title">
+      <button class="app-splash__close" type="button" data-app-splash-close aria-label="Закрыть">×</button>
+
+      <div class="app-splash__icon" data-app-splash-icon aria-hidden="true"></div>
+
+      <p class="section-kicker" data-app-splash-kicker>Готово</p>
+      <h2 id="app-splash-title" data-app-splash-title>Заявка оформлена</h2>
+      <p data-app-splash-message>
+        Мы получили заявку и свяжемся с вами для уточнения деталей.
+      </p>
+
+      <div class="app-splash__meta" data-app-splash-meta hidden></div>
+
+      <button class="btn btn-primary" type="button" data-app-splash-primary>
+        Вернуться к каталогу
+      </button>
+    </div>
+  </div>
+
+  <div class="toast-stack" data-toast-stack aria-live="polite" aria-atomic="true"></div>
+
+  <script type="module" src="/src/js/main.js"></script>
+
+</body>
+</html>

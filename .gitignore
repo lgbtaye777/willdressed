@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Build output / caches
+dist/
+build/
+.vite/
+.cache/
+coverage/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+prisma/dev.db
+prisma/dev.db-*
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Repomix output
+repomix-output.*
+*.repomix.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project junk / backups
+junk/
+public — копия/
+public - копия/
+public copy/
+public-copy/
+backup/
+backups/
+screenshots/
+design/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
