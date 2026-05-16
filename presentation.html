@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Преддипломная практика - WILLDRESSED</title>
+  <style>
+    :root {
+      --bg: #F8FBFF;
+      --white: #FFFFFF;
+      --blue: #0C54A0;
+      --blue-dark: #063A70;
+      --yellow: #F39430;
+      --orange: #F39430;
+      --green: #95C243;
+      --sky: #1CBBEE;
+      --lilac: #8160A4;
+      --blue-soft: #EAF7FE;
+      --text: #111827;
+      --muted: #4B5563;
+      --border: #D5E8F6;
+      --shadow: 0 24px 70px rgba(12, 84, 160, 0.16);
+      --shadow-soft: 0 14px 34px rgba(12, 84, 160, 0.1);
+      --radius: 20px;
+      --font: "Segoe UI", Arial, system-ui, sans-serif;
+      --mono: "Cascadia Mono", Consolas, monospace;
+      --slide-pad: clamp(22px, 3.6vw, 56px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow: hidden;
+      color: var(--text);
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(243, 148, 48, 0.15), transparent 24%),
+        radial-gradient(circle at 92% 16%, rgba(28, 187, 238, 0.16), transparent 28%),
+        radial-gradient(circle at 86% 82%, rgba(129, 96, 164, 0.1), transparent 26%),
+        linear-gradient(135deg, #FFFFFF 0%, var(--bg) 52%, #ECF4FF 100%);
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-width: 0;
+      min-height: 0;
+      isolation: isolate;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 80;
+      width: 100%;
+      height: 6px;
+      background: rgba(18, 58, 112, 0.12);
+    }
+
+    .progress__bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--green), var(--sky), var(--blue), var(--lilac));
+      transition: width 380ms ease;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: clamp(12px, 2.1vw, 26px);
+      width: 100%;
+      height: 100%;
+      padding: var(--slide-pad);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(18px) scale(0.985);
+      transition: opacity 420ms ease, transform 420ms ease, visibility 0s linear 420ms;
+      contain: layout paint style;
+      content-visibility: hidden;
+    }
+
+    .slide.is-active,
+    .slide.is-near {
+      visibility: visible;
+      content-visibility: visible;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      transition-delay: 0s;
+      will-change: opacity, transform;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      z-index: -1;
+      border: 1px solid rgba(214, 226, 242, 0.72);
+      border-radius: 34px;
+      background:
+        linear-gradient(90deg, rgba(18, 58, 112, 0.055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 58, 112, 0.045) 1px, transparent 1px),
+        rgba(255, 255, 255, 0.68);
+      background-size: 44px 44px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    }
+
+    .slide__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .slide-kicker,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 28px;
+      padding: 0 12px;
+      border: 1px solid rgba(18, 58, 112, 0.14);
+      border-radius: 999px;
+      color: var(--blue);
+      background: rgba(234, 242, 255, 0.86);
+      font-size: clamp(12px, 1vw, 14px);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .slide-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--yellow);
+      box-shadow: 0 0 0 4px rgba(242, 201, 76, 0.22);
+    }
+
+    .slide-title {
+      max-width: 980px;
+      margin: 10px 0 0;
+      color: var(--blue-dark);
+      font-size: clamp(28px, 3.75vw, 52px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .slide-subtitle {
+      max-width: 760px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.35vw, 22px);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .slide-number {
+      color: rgba(18, 58, 112, 0.28);
+      font-size: clamp(42px, 8vw, 118px);
+      font-weight: 900;
+      line-height: 0.8;
+      letter-spacing: -0.08em;
+    }
+
+    .slide__body {
+      min-height: 0;
+      align-self: stretch;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: clamp(24px, 3.2vw, 48px);
+      align-items: center;
+      height: 100%;
+    }
+
+    .two-column--wide-left {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      position: relative;
+      min-height: 120px;
+      padding: clamp(18px, 2vw, 26px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .card:hover {
+      transform: translate3d(0, -4px, 0);
+      border-color: rgba(243, 148, 48, 0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 94px;
+      height: 94px;
+      background: radial-gradient(circle, rgba(28, 187, 238, 0.2), transparent 66%);
+      pointer-events: none;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--blue-dark);
+      font-size: clamp(19px, 1.55vw, 26px);
+      line-height: 1.08;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: clamp(14px, 1.05vw, 17px);
+      line-height: 1.48;
+    }
+
+    .card p {
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      color: var(--blue-dark);
+      background: linear-gradient(135deg, var(--orange), var(--green));
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 12px 26px rgba(243, 148, 48, 0.24);
+    }
+
+    .blue-panel {
+      position: relative;
+      padding: clamp(24px, 3vw, 40px);
+      border-radius: 28px;
+      color: #FFFFFF;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(243, 148, 48, 0.22), transparent 30%),
+        radial-gradient(circle at 86% 18%, rgba(129, 96, 164, 0.22), transparent 30%),
+        linear-gradient(135deg, var(--blue-dark), var(--blue));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .blue-panel h3,
+    .blue-panel p {
+      color: inherit;
+    }
+
+    .blue-panel .badge {
+      color: var(--blue-dark);
+      border-color: rgba(255, 255, 255, 0.28);
+      background: var(--yellow);
+    }
+
+    .card,
+    .blue-panel,
+    .timeline__item,
+    .flow__node {
+      backface-visibility: hidden;
+    }
+
+    .slide.is-active .card,
+    .slide.is-active .blue-panel,
+    .slide.is-active .timeline__item,
+    .slide.is-active .flow__node,
+    .slide.is-near .card,
+    .slide.is-near .blue-panel,
+    .slide.is-near .timeline__item,
+    .slide.is-near .flow__node {
+      transform: translateZ(0);
+      will-change: transform, box-shadow, border-color;
+    }
+
+    .slide.is-active .card:hover,
+    .slide.is-near .card:hover {
+      transform: translate3d(0, -4px, 0);
+    }
+
+    .accent-yellow {
+      color: var(--blue-dark);
+      background: var(--yellow);
+    }
+
+    .callout {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid rgba(243, 148, 48, 0.58);
+      border-radius: 18px;
+      color: var(--blue-dark);
+      background: rgba(243, 148, 48, 0.12);
+      font-size: clamp(17px, 1.35vw, 22px);
+      font-weight: 700;
+    }
+
+    .callout::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      border-radius: 99px;
+      background: var(--yellow);
+      box-shadow: 0 0 0 6px rgba(243, 148, 48, 0.2);
+    }
+
+    .asset-frame {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(234, 242, 255, 0.9), rgba(255, 255, 255, 0.96)),
+        repeating-linear-gradient(45deg, rgba(18, 58, 112, 0.06) 0 10px, transparent 10px 20px);
+      box-shadow: var(--shadow-soft);
+      contain: paint;
+    }
+
+    .asset-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .asset-frame.is-placeholder img {
+      display: none;
+    }
+
+    .asset-frame.is-placeholder::before {
+      content: attr(data-placeholder);
+      max-width: 80%;
+      color: rgba(18, 58, 112, 0.52);
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .mockup {
+      position: relative;
+      padding: 18px;
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, #FFFFFF, #EAF2FF);
+      border: 1px solid rgba(18, 58, 112, 0.12);
+      box-shadow: var(--shadow);
+      contain: paint;
+    }
+
+    .device-frame {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 9px solid var(--blue-dark);
+      background: #0B0E0B;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .device-frame--phone {
+      width: min(200px, 28vw);
+      aspect-ratio: 9 / 19;
+      border-radius: 32px;
+      border-width: 8px;
+    }
+
+    .device-frame--laptop {
+      aspect-ratio: 16 / 10;
+    }
+
+    .device-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .site-preview {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .title-logo-card {
+      width: min(360px, 100%);
+      margin: 16px 0 0;
+      padding: 12px 18px;
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.14);
+    }
+
+    .title-logo-card img {
+      display: block;
+      width: 100%;
+      max-height: 70px;
+      object-fit: contain;
+    }
+
+    .site-preview .device-frame--phone {
+      margin-bottom: -18px;
+      transform: rotate(1.5deg);
+      box-shadow: 0 20px 48px rgba(11, 36, 71, 0.24);
+    }
+
+    .brand-card {
+      min-height: 420px;
+      background:
+        linear-gradient(180deg, rgba(7, 10, 7, 0.26), rgba(7, 10, 7, 0.74)),
+        #070A07;
+      color: #F7F3EA;
+    }
+
+    .brand-card h3,
+    .brand-card p {
+      color: #F7F3EA;
+    }
+
+    .brand-card .badge {
+      color: #F7F3EA;
+      border-color: rgba(247, 243, 234, 0.22);
+      background: rgba(247, 243, 234, 0.1);
+    }
+
+    .brand-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.42;
+      mix-blend-mode: screen;
+    }
+
+    .brand-card__content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: end;
+      height: 100%;
+    }
+
+    .palette-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .swatch {
+      height: 72px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .timeline__item {
+      position: relative;
+      min-height: 190px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .timeline__item::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: var(--yellow);
+      font-weight: 900;
+    }
+
+    .timeline__item::after {
+      content: "";
+      position: absolute;
+      top: 44px;
+      left: calc(100% - 8px);
+      width: 24px;
+      height: 2px;
+      background: var(--yellow);
+    }
+
+    .timeline__item:last-child::after {
+      display: none;
+    }
+
+    .timeline__item h3 {
+      margin: 0 0 10px;
+      color: var(--blue-dark);
+      font-size: 22px;
+    }
+
+    .timeline__item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .flow--wrap {
+      flex-wrap: wrap;
+    }
+
+    .flow__node {
+      position: relative;
+      flex: 1 1 130px;
+      min-height: 112px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .flow__node h3 {
+      margin: 0 0 8px;
+      color: var(--blue-dark);
+      font-size: clamp(17px, 1.3vw, 22px);
+      line-height: 1.1;
+    }
+
+    .flow__node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1vw, 16px);
+      line-height: 1.35;
+    }
+
+    .flow__node:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -17px;
+      z-index: 1;
+      width: 22px;
+      height: 22px;
+      border-top: 3px solid var(--yellow);
+      border-right: 3px solid var(--yellow);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .flow__node--accent {
+      border-color: rgba(242, 201, 76, 0.72);
+      background: linear-gradient(135deg, #FFF8DD, #FFFFFF);
+    }
+
+    .entity-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .entity {
+      min-height: 170px;
+      border-left: 7px solid var(--blue);
+    }
+
+    .entity strong {
+      display: inline-flex;
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-family: var(--mono);
+      font-size: clamp(18px, 1.35vw, 22px);
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      height: 100%;
+    }
+
+    .screen-thumb {
+      min-height: 0;
+      padding: 10px;
+      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      transition: transform 220ms ease;
+    }
+
+    .screen-thumb:hover {
+      transform: translateZ(0) scale(1.035);
+    }
+
+    .screen-thumb .asset-frame {
+      height: calc(100% - 34px);
+      min-height: 132px;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+
+    .screen-thumb span {
+      display: block;
+      margin-top: 10px;
+      color: var(--blue-dark);
+      font-size: clamp(13px, 1vw, 16px);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .screen-carousel {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 14px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .screen-carousel__viewport {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(234, 247, 254, 0.86));
+      box-shadow: var(--shadow);
+      contain: paint;
+    }
+
+    .screen-carousel__item {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 20%);
+      gap: clamp(12px, 1.8vw, 24px);
+      padding: clamp(14px, 1.8vw, 24px);
+      opacity: 0;
+      transform: translateX(28px);
+      transition: opacity 420ms ease, transform 420ms ease, visibility 0s linear 420ms;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .screen-carousel__item.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+      transition-delay: 0s;
+    }
+
+    .screen-carousel__desktop,
+    .screen-carousel__mobile {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #071009;
+      border: 10px solid var(--blue-dark);
+      box-shadow: 0 20px 55px rgba(12, 84, 160, 0.18);
+    }
+
+    .screen-carousel__desktop img,
+    .screen-carousel__mobile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .screen-carousel__desktop {
+      display: grid;
+      align-self: stretch;
+    }
+
+    .screen-carousel__mobile {
+      align-self: stretch;
+      border-width: 8px;
+      border-radius: 30px;
+    }
+
+    .screen-carousel__caption {
+      position: absolute;
+      left: clamp(24px, 3vw, 42px);
+      bottom: clamp(22px, 3vw, 36px);
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(214, 232, 246, 0.9);
+      box-shadow: var(--shadow-soft);
+      font-weight: 900;
+    }
+
+    .screen-carousel__caption::before {
+      content: attr(data-index);
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--orange);
+      font-size: 13px;
+    }
+
+    .screen-carousel__dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .screen-carousel__dot {
+      width: 36px;
+      height: 8px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(12, 84, 160, 0.18);
+      cursor: pointer;
+    }
+
+    .screen-carousel__dot.is-active {
+      background: linear-gradient(90deg, var(--orange), var(--sky));
+    }
+
+    .product-3d-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: clamp(16px, 2.4vw, 34px);
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .product-3d-card {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 14px;
+      min-height: 0;
+      padding: clamp(16px, 2vw, 24px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow);
+      contain: paint;
+    }
+
+    .product-3d-card__media {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #071009;
+    }
+
+    .product-3d-card__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-3d-card__badge {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 2;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--lilac));
+      font-weight: 900;
+      box-shadow: 0 16px 34px rgba(6, 58, 112, 0.28);
+    }
+
+    .product-3d-card__note {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: #fff;
+      background: rgba(6, 20, 36, 0.78);
+      backdrop-filter: blur(14px);
+      font-weight: 800;
+      transform: translateZ(0);
+      contain: paint;
+    }
+
+    .optimization-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .product-3d-layout .flow__node {
+      min-height: 92px;
+      padding: 14px;
+    }
+
+    .product-3d-layout .card {
+      min-height: auto;
+      padding: 16px 18px;
+    }
+
+    .product-3d-layout .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .optimization-pill {
+      padding: 9px 12px;
+      border-radius: 16px;
+      color: var(--blue-dark);
+      background: rgba(234, 247, 254, 0.86);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .stack-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stack-row strong {
+      color: var(--blue-dark);
+      font-size: 18px;
+    }
+
+    .stack-row span {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .mini-bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-bar {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      color: var(--blue-dark);
+      font-weight: 800;
+    }
+
+    .mini-bar i {
+      display: block;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--yellow));
+    }
+
+    .mockup-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .hero-title {
+      max-width: 1080px;
+      font-size: clamp(34px, 4vw, 58px);
+      line-height: 1.02;
+    }
+
+    .slide--title .hero-title {
+      max-width: 1120px;
+      font-size: clamp(32px, 3.35vw, 48px);
+      line-height: 1.04;
+    }
+
+    .slide--title {
+      grid-template-rows: 1fr;
+    }
+
+    .slide--title .slide__header {
+      display: none;
+    }
+
+    .slide--title .slide__body {
+      grid-row: 1;
+    }
+
+    .slide--title .two-column {
+      height: auto;
+    }
+
+    .slide--title .blue-panel {
+      padding: clamp(24px, 3vw, 40px);
+      height: 100%;
+    }
+
+    .title-panel-heading {
+      margin: 18px 0 14px;
+      color: #FFFFFF;
+      font-size: clamp(24px, 2.85vw, 38px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .title-meta {
+      display: grid;
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .title-meta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.25vw, 20px);
+      line-height: 1.35;
+    }
+
+    .title-meta strong {
+      color: var(--blue-dark);
+    }
+
+    .blue-panel .title-meta p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(14px, 1.05vw, 17px);
+      line-height: 1.28;
+    }
+
+    .blue-panel .title-meta strong {
+      color: #FFFFFF;
+    }
+
+    .title-line {
+      width: min(520px, 100%);
+      height: 8px;
+      margin: 18px 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--yellow), var(--blue));
+    }
+
+    .thanks {
+      display: grid;
+      place-items: center;
+      min-height: auto;
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .thanks h2 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(32px, 4.2vw, 60px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .thanks p {
+      max-width: 780px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      font-size: clamp(18px, 1.4vw, 24px);
+      line-height: 1.42;
+    }
+
+    .splash-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      margin-top: 22px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, var(--blue), var(--lilac));
+      box-shadow: var(--shadow-soft);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .thanks-splash {
+      position: absolute;
+      inset: 18px;
+      z-index: 70;
+      display: grid;
+      place-items: center;
+      border-radius: 34px;
+      color: #FFFFFF;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(243, 148, 48, 0.42), transparent 28%),
+        radial-gradient(circle at 84% 20%, rgba(28, 187, 238, 0.38), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(149, 194, 67, 0.28), transparent 34%),
+        linear-gradient(135deg, var(--blue-dark), var(--blue), var(--lilac));
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98);
+      transition: opacity 360ms ease, transform 360ms ease;
+      text-align: center;
+      contain: paint;
+    }
+
+    .thanks-splash.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .thanks-splash h2 {
+      margin: 0;
+      font-size: clamp(64px, 8vw, 128px);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+    }
+
+    .thanks-splash p {
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(22px, 2vw, 34px);
+      font-weight: 700;
+    }
+
+    .final-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .fake-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 22px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: #FFFFFF;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fake-button--primary {
+      color: var(--blue-dark);
+      background: var(--yellow);
+      border-color: rgba(242, 201, 76, 0.82);
+    }
+
+    .controls {
+      position: fixed;
+      right: 28px;
+      bottom: 24px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid rgba(214, 226, 242, 0.8);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      transform: translateZ(0);
+      contain: paint;
+    }
+
+    .nav-btn {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      color: #FFFFFF;
+      background: var(--blue);
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      background: var(--blue-dark);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.36;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .counter {
+      min-width: 74px;
+      color: var(--blue-dark);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 100;
+      max-width: 270px;
+      padding: 10px 12px;
+      border: 1px solid rgba(18, 58, 112, 0.16);
+      border-radius: 12px;
+      color: var(--blue-dark);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .tooltip.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.is-active .reveal {
+      animation: rise-in 520ms ease both;
+    }
+
+    .slide.is-active .reveal:nth-child(2) { animation-delay: 70ms; }
+    .slide.is-active .reveal:nth-child(3) { animation-delay: 130ms; }
+    .slide.is-active .reveal:nth-child(4) { animation-delay: 190ms; }
+    .slide.is-active .reveal:nth-child(5) { animation-delay: 250ms; }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .deck {
+        min-width: 0;
+      }
+
+      .screen-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    @media (max-height: 720px) {
+      :root {
+        --slide-pad: 24px;
+      }
+
+      .slide-title {
+        font-size: clamp(28px, 3.7vw, 50px);
+      }
+
+      .slide-subtitle {
+        font-size: 18px;
+      }
+
+      .card {
+        min-height: 126px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+  <noscript>
+    <style>
+      html,
+      body {
+        width: auto !important;
+        height: auto !important;
+        min-height: 100% !important;
+        overflow: auto !important;
+        color: #111827;
+        background: #F8FBFF;
+        font-family: Arial, sans-serif;
+      }
+
+      body::before {
+        content: "JavaScript отключен: слайды показаны как статичный документ.";
+        display: block;
+        padding: 12px 18px;
+        color: #063A70;
+        background: #FFF8DD;
+        border-bottom: 1px solid #D5E8F6;
+        font-weight: bold;
+      }
+
+      .progress,
+      .controls,
+      .tooltip,
+      .screen-carousel__dots,
+      .thanks-splash {
+        display: none !important;
+      }
+
+      .deck,
+      .slide,
+      .screen-carousel__item {
+        position: relative !important;
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        pointer-events: auto !important;
+      }
+
+      .slide {
+        padding: 28px !important;
+        border-bottom: 3px solid #D5E8F6 !important;
+      }
+
+      .slide::before,
+      .flow__node::after,
+      .timeline__item::after {
+        display: none !important;
+      }
+
+      .two-column,
+      .grid,
+      .entity-map,
+      .product-3d-layout,
+      .mockup-pair,
+      .site-preview,
+      .screen-carousel,
+      .screen-carousel__item {
+        display: block !important;
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><div class="progress__bar" data-progress></div></div>
+
+  <main class="deck" aria-live="polite">
+    <section class="slide slide--title is-active" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Преддипломная практика</span>
+        </div>
+        <div class="slide-number">01</div>
+      </header>
+      <div class="slide__body two-column">
+        <div class="blue-panel reveal">
+          <span class="badge">Презентация к преддипломной практике</span>
+          <h1 class="title-panel-heading">Разработка программного комплекса распределенного информационного ресурса</h1>
+          <p style="font-size:16px;line-height:1.35;margin:0 0 10px;color:rgba(255,255,255,.86);">с расширенным функционалом клиентского взаимодействия</p>
+          <div class="title-logo-card">
+            <img src="diploma-screenshots/university-logo.png" alt="Логотип учебного заведения" onerror="this.style.display='none'" decoding="async" fetchpriority="high">
+          </div>
+          <div class="title-line"></div>
+          <div class="title-meta">
+            <p><strong>Студентка:</strong> Зайцева Дарья Денисовна</p>
+            <p><strong>Кафедра:</strong> прикладной информатики</p>
+            <p><strong>Специальность СПО:</strong> 09.02.07 Информационные системы и программирование</p>
+            <p><strong>Руководитель:</strong> А. С. Крузенюк</p>
+            <p><strong>Новосибирск, 16 мая 2026 г.</strong></p>
+          </div>
+        </div>
+        <div class="mockup site-preview reveal">
+          <div class="device-frame device-frame--laptop asset-frame" data-placeholder="Скриншот главного экрана">
+            <img src="diploma-screenshots/01-hero-desktop.png" alt="Главный экран WILLDRESSED" onerror="imageFallback(this)" decoding="async" fetchpriority="high">
+          </div>
+          <div class="device-frame device-frame--phone asset-frame" data-placeholder="Мобильный главный экран">
+            <img src="diploma-screenshots/01-hero-mobile.png" alt="Мобильный главный экран WILLDRESSED" onerror="imageFallback(this)" decoding="async" fetchpriority="high">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Что разработано</span>
+          <h2 class="slide-title">WILLDRESSED как программный комплекс</h2>
+          <p class="slide-subtitle">Проект рассматривается не как статичный сайт, а как набор связанных подсистем.</p>
+        </div>
+        <div class="slide-number">02</div>
+      </header>
+      <div class="slide__body grid grid-3">
+        <article class="card reveal" data-tip="Интерфейс, модули каталога, Fit Finder, корзина и модальные окна.">
+          <div class="icon">FE</div>
+          <h3>Клиентская часть</h3>
+          <p>Экранные формы, навигация, адаптивность и пользовательская логика.</p>
+        </article>
+        <article class="card reveal" data-tip="Обработка запросов, авторизация, заявки, корзина и рассылка.">
+          <div class="icon">BE</div>
+          <h3>Серверная часть</h3>
+          <p>API и бизнес-логика для работы с данными и действиями пользователя.</p>
+        </article>
+        <article class="card reveal" data-tip="SQLite + Prisma ORM: пользователи, товары, корзина, заявки.">
+          <div class="icon">DB</div>
+          <h3>База данных</h3>
+          <p>Хранение каталога, профилей, заявок, подписчиков и сессий.</p>
+        </article>
+        <article class="card reveal" data-tip="JSON-запросы связывают клиентскую и серверную части.">
+          <div class="icon">API</div>
+          <h3>API</h3>
+          <p>Единый слой обмена между интерфейсом и сервером.</p>
+        </article>
+        <article class="card reveal" data-tip="Подбор размера, 3D-просмотр, аккаунт, корзина и оформление заявки.">
+          <div class="icon">UX</div>
+          <h3>Пользовательские модули</h3>
+          <p>Функции, которые делают ресурс интерактивным и персональным.</p>
+        </article>
+        <article class="blue-panel reveal">
+          <span class="badge">Итог</span>
+          <h3 style="font-size:30px;margin:18px 0 10px;">Единая система</h3>
+          <p style="font-size:18px;line-height:1.5;margin:0;">Frontend, backend, база данных и пользовательские сценарии работают вместе.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Актуальность</span>
+          <h2 class="slide-title">Почему проект важен</h2>
+          <p class="slide-subtitle">Онлайн-покупателю нужны не только изображения, но и помощь в выборе.</p>
+        </div>
+        <div class="slide-number">03</div>
+      </header>
+      <div class="slide__body two-column two-column--wide-left">
+        <div class="flow flow--wrap reveal">
+          <div class="flow__node"><h3>Пользователь онлайн</h3><p>Смотрит коллекцию без физической примерки.</p></div>
+          <div class="flow__node"><h3>Нет примерки</h3><p>Появляется риск ошибки с размером.</p></div>
+          <div class="flow__node"><h3>Нужны данные</h3><p>Размерная сетка и параметры пользователя.</p></div>
+          <div class="flow__node flow__node--accent"><h3>Удобная заявка</h3><p>Быстрый путь от интереса к обращению.</p></div>
+        </div>
+        <div class="grid reveal">
+          <article class="card">
+            <h3>Ключевые причины</h3>
+            <ul>
+              <li>пользователь ожидает персонализацию;</li>
+              <li>визуальная подача влияет на доверие;</li>
+              <li>сайт должен работать на разных устройствах;</li>
+              <li>данные заявки нужно сохранять корректно.</li>
+            </ul>
+          </article>
+          <div class="callout">Проект закрывает путь от просмотра коллекции до сохраненной заявки.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Цель и задачи</span>
+          <h2 class="slide-title">От анализа до работающего ресурса</h2>
+          <p class="slide-subtitle">Цель: разработать программный комплекс распределенного информационного ресурса.</p>
+        </div>
+        <div class="slide-number">04</div>
+      </header>
+      <div class="slide__body">
+        <div class="timeline">
+          <article class="timeline__item reveal" data-step="1" data-tip="Изучение предметной области и целевой аудитории.">
+            <h3>Анализ</h3>
+            <p>Определить назначение ресурса и пользовательские ожидания.</p>
+          </article>
+          <article class="timeline__item reveal" data-step="2" data-tip="Сценарии, структура интерфейса, база данных и архитектура.">
+            <h3>Проектирование</h3>
+            <p>Подготовить визуальную и техническую основу проекта.</p>
+          </article>
+          <article class="timeline__item reveal" data-step="3" data-tip="Frontend, backend, API, Prisma и SQLite.">
+            <h3>Реализация</h3>
+            <p>Собрать клиентскую часть, сервер и базу данных.</p>
+          </article>
+          <article class="timeline__item reveal" data-step="4" data-tip="Проверка основных пользовательских сценариев.">
+            <h3>Проверка</h3>
+            <p>Проверить каталог, профиль, корзину и оформление заявки.</p>
+          </article>
+          <article class="timeline__item reveal" data-step="5" data-tip="Схемы, таблицы, скриншоты, листинги и приложения.">
+            <h3>Отчет</h3>
+            <p>Оформить результаты практики для защиты.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Предметная область</span>
+          <h2 class="slide-title">Бренд, коллекция и аудитория</h2>
+          <p class="slide-subtitle">WILLDRESSED нужен ресурс для презентации коллекции и оформления заявок.</p>
+        </div>
+        <div class="slide-number">05</div>
+      </header>
+      <div class="slide__body two-column">
+        <div class="blue-panel reveal" style="min-height:100%;display:grid;align-content:center;">
+          <span class="badge">WILLDRESSED</span>
+          <h3 style="font-size:48px;margin:24px 0 14px;">Информационный ресурс бренда</h3>
+          <p style="font-size:21px;line-height:1.5;margin:0;">Презентация визуальной концепции, демонстрация объектов коллекции и сбор пользовательских заявок.</p>
+        </div>
+        <div class="grid grid-2">
+          <article class="card reveal" data-tip="Основная группа посетителей ресурса."><div class="icon">01</div><h3>Покупатели</h3><p>Ищут товары и быстрый способ оставить заявку.</p></article>
+          <article class="card reveal" data-tip="Аудитория, для которой важен образ бренда."><div class="icon">02</div><h3>Любители стиля</h3><p>Смотрят визуал, историю бренда и коллекцию.</p></article>
+          <article class="card reveal" data-tip="Пользователи, которым нужна уверенность в размере."><div class="icon">03</div><h3>Подбор размера</h3><p>Используют Fit Finder и рекомендации.</p></article>
+          <article class="card reveal" data-tip="Повторные пользователи с сохраненными параметрами."><div class="icon">04</div><h3>Постоянные клиенты</h3><p>Возвращаются в профиль и корзину.</p></article>
+          <article class="card reveal" data-tip="Пользователи, которые хотят получать новости бренда."><div class="icon">05</div><h3>Подписчики</h3><p>Оставляют email для дальнейшей коммуникации.</p></article>
+          <article class="card reveal"><h3>Задача ресурса</h3><p>Соединить визуальную подачу бренда с понятным клиентским сценарием.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Клиентское взаимодействие</span>
+          <h2 class="slide-title">Путь пользователя внутри ресурса</h2>
+          <p class="slide-subtitle">Это последовательность действий, а не набор отдельных страниц.</p>
+        </div>
+        <div class="slide-number">06</div>
+      </header>
+      <div class="slide__body">
+        <div class="flow flow--wrap" style="margin-bottom:24px;">
+          <div class="flow__node reveal"><h3>Главная</h3><p>Входная точка и переходы.</p></div>
+          <div class="flow__node reveal"><h3>О бренде</h3><p>История и визуальная концепция.</p></div>
+          <div class="flow__node reveal"><h3>Каталог</h3><p>Объекты коллекции.</p></div>
+          <div class="flow__node reveal"><h3>Карточка</h3><p>Описание, размеры, уход.</p></div>
+        </div>
+        <div class="flow flow--wrap">
+          <div class="flow__node reveal"><h3>Fit Finder</h3><p>Параметры и рекомендация.</p></div>
+          <div class="flow__node reveal"><h3>Корзина</h3><p>Состав заявки.</p></div>
+          <div class="flow__node reveal"><h3>Оформление</h3><p>Контакты и доставка.</p></div>
+          <div class="flow__node flow__node--accent reveal"><h3>Подписка</h3><p>Дальнейшее взаимодействие.</p></div>
+        </div>
+        <div class="callout reveal" style="margin-top:26px;">Расширенное взаимодействие проявляется в каждом шаге сценария.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Визуальное проектирование</span>
+          <h2 class="slide-title">Moodboard, Palette, UI Kit</h2>
+          <p class="slide-subtitle">Сайт сохраняет атмосферу бренда, а презентация остается академичной.</p>
+        </div>
+        <div class="slide-number">07</div>
+      </header>
+      <div class="slide__body grid grid-3">
+        <article class="card brand-card reveal" data-tip="Визуальные референсы: природные фактуры, мягкая темная сцена, крупный товар.">
+          <img src="public/images/section2_images/slide2.png" alt="Мудборд визуальной концепции" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          <div class="brand-card__content">
+            <span class="badge">Moodboard</span>
+            <h3>Лесные фактуры</h3>
+            <p>Темный editorial-стиль, природные оттенки, ручная работа.</p>
+          </div>
+        </article>
+        <article class="card brand-card reveal" data-tip="Цветовая основа сайта: темный фон, зеленые и теплые природные оттенки.">
+          <img src="public/images/products/sweater-001/sweater-001-detail-pattern-front.webp" alt="Палитра сайта" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          <div class="brand-card__content">
+            <span class="badge">Palette</span>
+            <h3>Цвет и фактура</h3>
+            <div class="palette-row" aria-label="Палитра сайта">
+              <span class="swatch" style="background:#070A07"></span>
+              <span class="swatch" style="background:#70835C"></span>
+              <span class="swatch" style="background:#D6CF9D"></span>
+              <span class="swatch" style="background:#5C3D30"></span>
+              <span class="swatch" style="background:#7C3D4B"></span>
+            </div>
+          </div>
+        </article>
+        <article class="card brand-card reveal" data-tip="Компоненты сайта: карточки, кнопки, формы, размеры и состояния.">
+          <img src="diploma-screenshots/05-product-modal-desktop.png" alt="UI kit и карточка товара" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          <div class="brand-card__content">
+            <span class="badge">UI Kit</span>
+            <h3>Компоненты</h3>
+            <p>Кнопки, карточки, формы, статусы и модальные окна.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Прототипы экранов</span>
+          <h2 class="slide-title">Ключевые desktop- и mobile-состояния</h2>
+          <p class="slide-subtitle">Для основных экранов подготовлены скриншоты и адаптивные версии.</p>
+        </div>
+        <div class="slide-number">08</div>
+      </header>
+      <div class="slide__body screen-carousel reveal" data-carousel>
+        <div class="screen-carousel__viewport">
+          <article class="screen-carousel__item is-active" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Главный экран desktop">
+              <img src="diploma-screenshots/01-hero-desktop.png" alt="Главный экран desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="01">Главный экран</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Главный экран mobile">
+              <img src="diploma-screenshots/01-hero-mobile.png" alt="Главный экран mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="О бренде desktop">
+              <img src="diploma-screenshots/02-brand-story-desktop.png" alt="О бренде desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="02">О бренде</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="О бренде mobile">
+              <img src="diploma-screenshots/02-brand-story-mobile.png" alt="О бренде mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Fit Finder desktop">
+              <img src="diploma-screenshots/03-fit-finder-desktop.png" alt="Fit Finder desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="03">Fit Finder</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Fit Finder mobile">
+              <img src="diploma-screenshots/03-fit-finder-mobile.png" alt="Fit Finder mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Каталог desktop">
+              <img src="diploma-screenshots/04-catalog-desktop.png" alt="Каталог desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="04">Каталог</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Каталог mobile">
+              <img src="diploma-screenshots/04-catalog-mobile.png" alt="Каталог mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Карточка desktop">
+              <img src="diploma-screenshots/05-product-modal-desktop.png" alt="Карточка товара desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="05">Карточка объекта</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Карточка mobile">
+              <img src="diploma-screenshots/05-product-modal-mobile.png" alt="Карточка товара mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Профиль desktop">
+              <img src="diploma-screenshots/07-account-profile-desktop.png" alt="Профиль desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="06">Профиль</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Профиль mobile">
+              <img src="diploma-screenshots/07-account-profile-mobile.png" alt="Профиль mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Корзина desktop">
+              <img src="diploma-screenshots/08-cart-desktop.png" alt="Корзина desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="07">Корзина</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Корзина mobile">
+              <img src="diploma-screenshots/08-cart-mobile.png" alt="Корзина mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+          <article class="screen-carousel__item" data-carousel-item>
+            <div class="screen-carousel__desktop asset-frame" data-placeholder="Оформление desktop">
+              <img src="diploma-screenshots/09-checkout-desktop.png" alt="Оформление заявки desktop" onerror="imageFallback(this)" loading="lazy" decoding="async">
+              <div class="screen-carousel__caption" data-index="08">Оформление заявки</div>
+            </div>
+            <div class="screen-carousel__mobile asset-frame" data-placeholder="Оформление mobile">
+              <img src="diploma-screenshots/09-checkout-mobile.png" alt="Оформление заявки mobile" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            </div>
+          </article>
+        </div>
+        <div class="screen-carousel__dots" data-carousel-dots aria-label="Переключение экранов"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Архитектура</span>
+          <h2 class="slide-title">Структура программного комплекса</h2>
+          <p class="slide-subtitle">Клиентская часть, сервер и база данных разделены, но работают вместе.</p>
+        </div>
+        <div class="slide-number">09</div>
+      </header>
+      <div class="slide__body two-column">
+        <div class="grid">
+          <div class="flow flow--wrap reveal">
+            <div class="flow__node"><h3>Frontend</h3><p>HTML, CSS, JS, Vite</p></div>
+            <div class="flow__node"><h3>API</h3><p>JSON-запросы</p></div>
+            <div class="flow__node"><h3>Backend</h3><p>Node.js, Express</p></div>
+            <div class="flow__node flow__node--accent"><h3>Database</h3><p>Prisma, SQLite</p></div>
+          </div>
+          <div class="callout reveal">Распределенный характер проекта: интерфейс, логика и хранение данных разделены.</div>
+        </div>
+        <div class="stack-list reveal">
+          <div class="stack-row"><strong>Static</strong><span>изображения, видео, 3D-модели, продуктовые ассеты</span></div>
+          <div class="stack-row"><strong>Modules</strong><span>catalog, product modal, account, cart, checkout, Fit Finder</span></div>
+          <div class="stack-row"><strong>Routes</strong><span>auth, products, cart, orders, newsletter</span></div>
+          <div class="stack-row"><strong>Deploy</strong><span>сборка клиента и запуск серверной части</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">База данных</span>
+          <h2 class="slide-title">Подсистема хранения данных</h2>
+          <p class="slide-subtitle">База хранит не только каталог, но и действия пользователя.</p>
+        </div>
+        <div class="slide-number">10</div>
+      </header>
+      <div class="slide__body entity-map">
+        <article class="card entity reveal" data-tip="Профиль хранит параметры тела и предпочтительную посадку.">
+          <strong>User / UserProfile</strong>
+          <p>Аккаунт, авторизация, сохраненные параметры и персонализация.</p>
+        </article>
+        <article class="card entity reveal" data-tip="Товар содержит цену, изображения, размеры, состав и уход.">
+          <strong>Product</strong>
+          <p>Объекты каталога, галерея, размерная сетка, состав и уход.</p>
+        </article>
+        <article class="card entity reveal" data-tip="Корзина поддерживает выбранные товары и размеры.">
+          <strong>CartItem</strong>
+          <p>Текущий состав корзины авторизованного пользователя.</p>
+        </article>
+        <article class="card entity reveal" data-tip="Заявка хранит контакты, адрес, сумму и статус.">
+          <strong>Order</strong>
+          <p>Контактные данные, статус, сумма, комментарий и связь с пользователем.</p>
+        </article>
+        <article class="card entity reveal" data-tip="Состав заявки фиксирует товары на момент оформления.">
+          <strong>OrderItem</strong>
+          <p>Товар, размер, количество, цена и изображение в составе заявки.</p>
+        </article>
+        <article class="card entity reveal" data-tip="Email и согласие пользователя на дальнейшую коммуникацию.">
+          <strong>NewsletterSubscriber</strong>
+          <p>Подписчики рассылки и согласие на маркетинговые сообщения.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Fit Finder</span>
+          <h2 class="slide-title">Персонализированный подбор размера</h2>
+          <p class="slide-subtitle">Модуль помогает пользователю выбрать вещь без физической примерки.</p>
+        </div>
+        <div class="slide-number">11</div>
+      </header>
+      <div class="slide__body two-column two-column--wide-left">
+        <div class="grid">
+          <div class="flow flow--wrap reveal">
+            <div class="flow__node"><h3>Параметры</h3><p>рост, вес, грудь, талия, бедра</p></div>
+            <div class="flow__node"><h3>sizeChart</h3><p>размерная сетка товара</p></div>
+            <div class="flow__node"><h3>Алгоритм</h3><p>сравнение и preferredFit</p></div>
+            <div class="flow__node flow__node--accent"><h3>Размер</h3><p>рекомендация в карточке</p></div>
+          </div>
+          <article class="card reveal">
+            <h3>Что дает модуль</h3>
+            <ul>
+              <li>снижает неопределенность при выборе;</li>
+              <li>связывает профиль и каталог;</li>
+              <li>усиливает клиентское взаимодействие.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="mockup mockup-pair reveal">
+          <div class="device-frame device-frame--laptop asset-frame" data-placeholder="Fit Finder">
+            <img src="diploma-screenshots/03-fit-finder-desktop.png" alt="Скриншот Fit Finder" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          </div>
+          <div class="device-frame device-frame--phone asset-frame" data-placeholder="Fit Finder mobile">
+            <img src="diploma-screenshots/03-fit-finder-mobile.png" alt="Мобильный Fit Finder" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">3D-визуализация</span>
+          <h2 class="slide-title">3D-визуализация объектов каталога</h2>
+          <p class="slide-subtitle">Дополнительный способ рассмотреть объект перед добавлением в корзину.</p>
+        </div>
+        <div class="slide-number">12</div>
+      </header>
+      <div class="slide__body product-3d-layout">
+        <article class="product-3d-card reveal">
+          <div class="product-3d-card__media asset-frame" data-placeholder="3D-просмотр объекта">
+            <img src="diploma-screenshots/slide12.jpg" alt="3D-просмотр объекта каталога" onerror="imageFallback(this)" loading="lazy" decoding="async">
+            <div class="product-3d-card__badge">3D-просмотр</div>
+            <div class="product-3d-card__note">GLB-модель загружается только при необходимости</div>
+          </div>
+          <div class="callout">3D-модуль дополняет карточку объекта и усиливает визуальное восприятие товара.</div>
+        </article>
+        <div class="grid">
+          <div class="flow flow--wrap reveal">
+            <div class="flow__node"><h3>Контейнер</h3><p>на странице</p></div>
+            <div class="flow__node"><h3>modelId</h3><p>связь с товаром</p></div>
+            <div class="flow__node"><h3>GLB</h3><p>загрузка модели</p></div>
+            <div class="flow__node flow__node--accent"><h3>Интерфейс</h3><p>отображение</p></div>
+          </div>
+          <article class="card reveal">
+            <h3>Коротко о реализации</h3>
+            <ul>
+              <li>модели загружаются в формате GLB;</li>
+              <li>для отображения используется Three.js;</li>
+              <li>модель нормализуется по размеру;</li>
+              <li>сцена запускается только в области видимости;</li>
+              <li>учитываются слабые устройства и reduced motion.</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <h3>Оптимизация</h3>
+            <div class="optimization-grid">
+              <span class="optimization-pill">IntersectionObserver</span>
+              <span class="optimization-pill">остановка вне viewport</span>
+              <span class="optimization-pill">prefers-reduced-motion</span>
+              <span class="optimization-pill">low-power режим</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Завершение сценария</span>
+          <h2 class="slide-title">Корзина, заявки и рассылка</h2>
+          <p class="slide-subtitle">Пользовательский путь завершается сохранением данных на сервере.</p>
+        </div>
+        <div class="slide-number">13</div>
+      </header>
+      <div class="slide__body grid">
+        <div class="flow flow--wrap reveal">
+          <div class="flow__node"><h3>Карточка объекта</h3><p>выбор товара и размера</p></div>
+          <div class="flow__node"><h3>Корзина</h3><p>проверка состава заявки</p></div>
+          <div class="flow__node"><h3>Форма заявки</h3><p>контакты и комментарий</p></div>
+          <div class="flow__node"><h3>Проверка</h3><p>валидация данных сервером</p></div>
+          <div class="flow__node flow__node--accent"><h3>База данных</h3><p>Order и OrderItem</p></div>
+        </div>
+        <div class="grid grid-3">
+          <article class="card reveal">
+            <div class="icon">01</div>
+            <h3>Корзина</h3>
+            <p>Сохраняет выбранные объекты, размеры, количество и итоговую сумму.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">02</div>
+            <h3>Заявка</h3>
+            <p>Фиксирует контактные данные, адрес, комментарий и состав заказа.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">03</div>
+            <h3>Рассылка</h3>
+            <p>Email сохраняется отдельно при согласии пользователя на дальнейшую коммуникацию.</p>
+          </article>
+        </div>
+        <div class="callout reveal">Финальный этап сценария переводит пользовательское действие в сохраненную запись базы данных.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide data-final-slide>
+      <header class="slide__header reveal">
+        <div>
+          <span class="slide-kicker">Итоги</span>
+          <h2 class="slide-title">Результат преддипломной практики</h2>
+          <p class="slide-subtitle">Цель практики достигнута: разработан работающий программный комплекс.</p>
+        </div>
+        <div class="slide-number">14</div>
+      </header>
+      <div class="slide__body">
+        <div class="flow reveal" style="margin-bottom:28px;">
+          <div class="flow__node"><h3>Анализ</h3><p>предметная область и аудитория</p></div>
+          <div class="flow__node"><h3>Проектирование</h3><p>структура, UI kit, база данных</p></div>
+          <div class="flow__node"><h3>Реализация</h3><p>frontend, backend, API</p></div>
+          <div class="flow__node flow__node--accent"><h3>Рабочий ресурс</h3><p>WILLDRESSED</p></div>
+        </div>
+        <div class="grid grid-2">
+          <article class="card reveal">
+            <h3>Реализовано</h3>
+            <ul>
+              <li>каталог, карточки и адаптивные экраны;</li>
+              <li>профиль, Fit Finder и рекомендации;</li>
+              <li>корзина, заявки, рассылка и база данных.</li>
+            </ul>
+          </article>
+          <article class="blue-panel reveal">
+            <span class="badge">Заключение</span>
+            <h3 style="font-size:34px;margin:20px 0 10px;">Проект соответствует теме практики</h3>
+            <p style="font-size:19px;line-height:1.5;margin:0;">В нем есть распределенная структура, база данных, API и расширенное клиентское взаимодействие.</p>
+          </article>
+        </div>
+      </div>
+      <div class="thanks-splash" data-final-splash>
+        <div>
+          <h2>Спасибо за внимание</h2>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="controls" aria-label="Управление презентацией">
+    <button class="nav-btn" type="button" data-prev aria-label="Предыдущий слайд">‹</button>
+    <div class="counter" data-counter>1 / 14</div>
+    <button class="nav-btn" type="button" data-next aria-label="Следующий слайд">›</button>
+  </div>
+
+  <div class="tooltip" data-tooltip role="status"></div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var isModern = false;
+
+      try {
+        isModern = !!(
+          window.CSS &&
+          CSS.supports &&
+          CSS.supports('display', 'grid') &&
+          CSS.supports('--test', '0') &&
+          document.querySelectorAll &&
+          document.documentElement.classList &&
+          document.documentElement.closest &&
+          window.Promise &&
+          window.Map &&
+          window.Symbol &&
+          window.matchMedia
+        );
+      } catch (error) {
+        isModern = false;
+      }
+
+      if (isModern) return;
+
+      root.className += (root.className ? ' ' : '') + 'legacy-browser';
+
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.appendChild(document.createTextNode(
+        'html.legacy-browser, html.legacy-browser body {' +
+          'width:auto !important;height:auto !important;min-height:100% !important;' +
+          'overflow:auto !important;color:#111827;background:#F8FBFF;font-family:Arial,sans-serif;' +
+        '}' +
+        '.legacy-browser body:before {' +
+          'content:"Режим старого браузера: анимации и управление слайдами отключены.";display:block;' +
+          'padding:12px 18px;color:#063A70;background:#FFF8DD;border-bottom:1px solid #D5E8F6;' +
+          'font-weight:bold;' +
+        '}' +
+        '.legacy-browser .progress,.legacy-browser .controls,.legacy-browser .tooltip,' +
+        '.legacy-browser .screen-carousel__dots,.legacy-browser .thanks-splash {display:none !important;}' +
+        '.legacy-browser .deck {position:static !important;width:auto !important;height:auto !important;}' +
+        '.legacy-browser .slide {' +
+          'position:relative !important;display:block !important;width:auto !important;height:auto !important;' +
+          'min-height:0 !important;margin:0 !important;padding:28px !important;opacity:1 !important;' +
+          'visibility:visible !important;transform:none !important;pointer-events:auto !important;' +
+          'background:#F8FBFF !important;border-bottom:3px solid #D5E8F6 !important;' +
+        '}' +
+        '.legacy-browser .slide:before {display:none !important;}' +
+        '.legacy-browser .slide__header {display:block !important;margin-bottom:18px !important;}' +
+        '.legacy-browser .slide-number {float:right;color:#0C54A0;font-size:48px;line-height:1;font-weight:bold;}' +
+        '.legacy-browser .slide-title,.legacy-browser .hero-title {' +
+          'margin:10px 0;color:#063A70;font-size:34px;line-height:1.08;letter-spacing:0;' +
+        '}' +
+        '.legacy-browser .slide-subtitle {max-width:none;margin:8px 0 0;color:#4B5563;font-size:18px;}' +
+        '.legacy-browser .slide-kicker,.legacy-browser .badge {' +
+          'display:inline-block;padding:6px 10px;color:#063A70;background:#EAF7FE;border:1px solid #D5E8F6;' +
+          'border-radius:16px;font-size:13px;font-weight:bold;text-transform:uppercase;' +
+        '}' +
+        '.legacy-browser .two-column,.legacy-browser .grid,.legacy-browser .entity-map,' +
+        '.legacy-browser .product-3d-layout,.legacy-browser .mockup-pair,.legacy-browser .site-preview,' +
+        '.legacy-browser .screen-carousel,.legacy-browser .screen-carousel__item {' +
+          'display:block !important;height:auto !important;' +
+        '}' +
+        '.legacy-browser .card,.legacy-browser .blue-panel,.legacy-browser .timeline__item,' +
+        '.legacy-browser .flow__node,.legacy-browser .callout,.legacy-browser .mockup,' +
+        '.legacy-browser .product-3d-card,.legacy-browser .stack-row {' +
+          'display:block !important;position:relative !important;min-height:0 !important;margin:0 0 16px !important;' +
+          'padding:18px !important;color:#111827;background:#FFFFFF !important;border:1px solid #D5E8F6 !important;' +
+          'border-radius:12px !important;box-shadow:none !important;transform:none !important;' +
+        '}' +
+        '.legacy-browser .blue-panel {color:#FFFFFF !important;background:#0C54A0 !important;}' +
+        '.legacy-browser .blue-panel h1,.legacy-browser .blue-panel h2,.legacy-browser .blue-panel h3,' +
+        '.legacy-browser .blue-panel p,.legacy-browser .blue-panel strong {color:#FFFFFF !important;}' +
+        '.legacy-browser .flow {display:block !important;}' +
+        '.legacy-browser .flow__node:after,.legacy-browser .timeline__item:after,.legacy-browser .card:after,' +
+        '.legacy-browser .slide-kicker:before,.legacy-browser .callout:before {display:none !important;}' +
+        '.legacy-browser .asset-frame,.legacy-browser .device-frame,.legacy-browser .screen-carousel__viewport,' +
+        '.legacy-browser .screen-carousel__desktop,.legacy-browser .screen-carousel__mobile,' +
+        '.legacy-browser .product-3d-card__media {' +
+          'display:block !important;position:relative !important;height:auto !important;min-height:0 !important;' +
+          'margin:0 0 14px !important;padding:0 !important;overflow:visible !important;border:1px solid #D5E8F6 !important;' +
+          'border-radius:10px !important;background:#FFFFFF !important;box-shadow:none !important;' +
+        '}' +
+        '.legacy-browser img {display:block !important;width:auto !important;max-width:100% !important;height:auto !important;}' +
+        '.legacy-browser .brand-card img {position:relative !important;opacity:1 !important;mix-blend-mode:normal !important;}' +
+        '.legacy-browser .screen-carousel__item {' +
+          'position:relative !important;opacity:1 !important;visibility:visible !important;transform:none !important;' +
+          'pointer-events:auto !important;margin-bottom:20px !important;padding:0 !important;' +
+        '}' +
+        '.legacy-browser .product-3d-card__badge,.legacy-browser .product-3d-card__note,' +
+        '.legacy-browser .screen-carousel__caption {' +
+          'position:static !important;display:block !important;margin:8px 0 !important;padding:10px 12px !important;' +
+          'color:#063A70 !important;background:#EAF7FE !important;border-radius:8px !important;box-shadow:none !important;' +
+        '}' +
+        '.legacy-browser .title-logo-card {width:auto !important;background:#FFFFFF !important;}' +
+        '.legacy-browser .nav-btn {display:none !important;}'
+      ));
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }());
+  </script>
+
+  <script>
+    if (document.documentElement.className.indexOf('legacy-browser') !== -1) {
+      throw new Error('Legacy browser fallback mode is active.');
+    }
+
+    const slides = [...document.querySelectorAll('[data-slide]')];
+    const progress = document.querySelector('[data-progress]');
+    const counter = document.querySelector('[data-counter]');
+    const prevButton = document.querySelector('[data-prev]');
+    const nextButton = document.querySelector('[data-next]');
+    const tooltip = document.querySelector('[data-tooltip]');
+    const finalSlide = document.querySelector('[data-final-slide]');
+    const finalSplash = document.querySelector('[data-final-splash]');
+    const carousels = [...document.querySelectorAll('[data-carousel]')];
+    const deferredImages = [...document.querySelectorAll('img[loading="lazy"][src]')];
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let current = 0;
+    const carouselState = new Map();
+
+    deferredImages.forEach(image => {
+      if (image.complete && image.naturalWidth > 0) return;
+      image.dataset.src = image.getAttribute('src');
+      image.removeAttribute('src');
+    });
+
+    function imageFallback(image) {
+      const frame = image.closest('.asset-frame, .brand-card');
+      if (!frame) return;
+      frame.classList.add('is-placeholder');
+      image.removeAttribute('src');
+    }
+
+    window.imageFallback = imageFallback;
+
+    function loadSlideImages(slide) {
+      if (!slide) return;
+      slide.querySelectorAll('img[data-src]').forEach(image => {
+        image.src = image.dataset.src;
+        image.removeAttribute('data-src');
+      });
+    }
+
+    function syncSlideWorkload() {
+      slides.forEach((slide, slideIndex) => {
+        const isNear = Math.abs(slideIndex - current) <= 1;
+        slide.classList.toggle('is-near', isNear);
+
+        if (isNear) {
+          loadSlideImages(slide);
+        }
+      });
+    }
+
+    function setSlide(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === current);
+        slide.setAttribute('aria-hidden', slideIndex === current ? 'false' : 'true');
+      });
+      syncSlideWorkload();
+
+      const value = ((current + 1) / slides.length) * 100;
+      progress.style.width = `${value}%`;
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      prevButton.disabled = current === 0;
+      nextButton.disabled = current === slides.length - 1;
+      hideTooltip();
+      hideFinalSplash();
+      history.replaceState(null, '', `#${current + 1}`);
+      syncCarousels();
+    }
+
+    function nextSlide() {
+      setSlide(current + 1);
+    }
+
+    function prevSlide() {
+      setSlide(current - 1);
+    }
+
+    function showTooltip(target) {
+      const text = target.dataset.tip;
+      if (!text) return;
+
+      const rect = target.getBoundingClientRect();
+      tooltip.textContent = text;
+      tooltip.style.left = `${Math.min(window.innerWidth - 292, Math.max(18, rect.left + rect.width / 2 - 135))}px`;
+      tooltip.style.top = `${Math.min(window.innerHeight - 92, rect.bottom + 12)}px`;
+      tooltip.classList.add('is-visible');
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('is-visible');
+    }
+
+    function hideFinalSplash() {
+      if (finalSplash) {
+        finalSplash.classList.remove('is-visible');
+      }
+    }
+
+    function showFinalSplash() {
+      if (current !== slides.indexOf(finalSlide)) return;
+      if (finalSplash) {
+        finalSplash.classList.add('is-visible');
+      }
+    }
+
+    function setCarouselItem(carousel, index) {
+      const state = carouselState.get(carousel);
+      const items = state ? state.items : [...carousel.querySelectorAll('[data-carousel-item]')];
+      const dots = state ? state.dots : [...carousel.querySelectorAll('[data-carousel-dot]')];
+      if (!items.length) return;
+
+      const nextIndex = (index + items.length) % items.length;
+      if (state) {
+        state.index = nextIndex;
+      } else {
+        carouselState.set(carousel, { index: nextIndex, items, dots, timer: null, slide: carousel.closest('.slide') });
+      }
+      items.forEach((item, itemIndex) => {
+        item.classList.toggle('is-active', itemIndex === nextIndex);
+      });
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === nextIndex);
+        dot.setAttribute('aria-current', dotIndex === nextIndex ? 'true' : 'false');
+      });
+    }
+
+    function stopCarousel(carousel) {
+      const state = carouselState.get(carousel);
+      if (!state || !state.timer) return;
+      window.clearTimeout(state.timer);
+      state.timer = null;
+    }
+
+    function scheduleCarousel(carousel) {
+      const state = carouselState.get(carousel);
+      if (!state || prefersReducedMotion.matches || !state.slide || !state.slide.classList.contains('is-active')) {
+        stopCarousel(carousel);
+        return;
+      }
+
+      stopCarousel(carousel);
+      state.timer = window.setTimeout(() => {
+        setCarouselItem(carousel, state.index + 1);
+        scheduleCarousel(carousel);
+      }, 4200);
+    }
+
+    function syncCarousels() {
+      carousels.forEach(carousel => {
+        const state = carouselState.get(carousel);
+        if (state && state.slide && state.slide.classList.contains('is-active')) {
+          scheduleCarousel(carousel);
+        } else {
+          stopCarousel(carousel);
+        }
+      });
+    }
+
+    carousels.forEach(carousel => {
+      const items = [...carousel.querySelectorAll('[data-carousel-item]')];
+      const dotsHost = carousel.querySelector('[data-carousel-dots]');
+      const state = { index: 0, items, dots: [], timer: null, slide: carousel.closest('.slide') };
+      carouselState.set(carousel, state);
+
+      items.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'screen-carousel__dot';
+        dot.type = 'button';
+        dot.dataset.carouselDot = String(index);
+        dot.setAttribute('aria-label', `Показать экран ${index + 1}`);
+        dot.addEventListener('click', () => {
+          setCarouselItem(carousel, index);
+          scheduleCarousel(carousel);
+        });
+        if (dotsHost) {
+          dotsHost.appendChild(dot);
+        }
+        state.dots.push(dot);
+      });
+
+      setCarouselItem(carousel, 0);
+    });
+
+    if (prefersReducedMotion.addEventListener) {
+      prefersReducedMotion.addEventListener('change', syncCarousels);
+    } else if (prefersReducedMotion.addListener) {
+      prefersReducedMotion.addListener(syncCarousels);
+    }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        nextSlide();
+      }
+
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        prevSlide();
+      }
+
+      if (event.key === 'Home') {
+        event.preventDefault();
+        setSlide(0);
+      }
+
+      if (event.key === 'End') {
+        event.preventDefault();
+        setSlide(slides.length - 1);
+      }
+
+      if (event.key === 'Escape') {
+        hideTooltip();
+        hideFinalSplash();
+      }
+    });
+
+    prevButton.addEventListener('click', prevSlide);
+    nextButton.addEventListener('click', nextSlide);
+    if (finalSlide) {
+      finalSlide.addEventListener('click', event => {
+        if (event.target.closest('.controls')) return;
+        showFinalSplash();
+      });
+    }
+
+    document.addEventListener('mouseover', event => {
+      const target = event.target.closest('[data-tip]');
+      if (!target || target.contains(event.relatedTarget)) return;
+      showTooltip(target);
+    });
+
+    document.addEventListener('mouseout', event => {
+      const target = event.target.closest('[data-tip]');
+      if (!target || target.contains(event.relatedTarget)) return;
+      hideTooltip();
+    });
+
+    document.addEventListener('focusin', event => {
+      const target = event.target.closest('[data-tip]');
+      if (target) showTooltip(target);
+    });
+
+    document.addEventListener('focusout', event => {
+      if (event.target.closest('[data-tip]')) hideTooltip();
+    });
+
+    document.querySelectorAll('[data-tip]').forEach(element => {
+      element.tabIndex = 0;
+    });
+
+    const hashIndex = Number(window.location.hash.replace('#', '')) - 1;
+    setSlide(Number.isFinite(hashIndex) ? hashIndex : 0);
+  </script>
+</body>
+</html>
