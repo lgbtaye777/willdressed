@@ -39,11 +39,7 @@
       overflow: hidden;
       color: var(--text);
       font-family: var(--font);
-      background:
-        radial-gradient(circle at 8% 12%, rgba(243, 148, 48, 0.15), transparent 24%),
-        radial-gradient(circle at 92% 16%, rgba(28, 187, 238, 0.16), transparent 28%),
-        radial-gradient(circle at 86% 82%, rgba(129, 96, 164, 0.1), transparent 26%),
-        linear-gradient(135deg, #FFFFFF 0%, var(--bg) 52%, #ECF4FF 100%);
+      background: var(--bg);
     }
 
     button,
@@ -78,7 +74,7 @@
     .progress__bar {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--orange), var(--green), var(--sky), var(--blue), var(--lilac));
+      background: var(--blue);
       transition: width 380ms ease;
     }
 
@@ -121,11 +117,7 @@
       z-index: -1;
       border: 1px solid rgba(214, 226, 242, 0.72);
       border-radius: 34px;
-      background:
-        linear-gradient(90deg, rgba(18, 58, 112, 0.055) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(18, 58, 112, 0.045) 1px, transparent 1px),
-        rgba(255, 255, 255, 0.68);
-      background-size: 44px 44px;
+      background: rgba(255, 255, 255, 0.68);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
     }
 
@@ -249,7 +241,7 @@
       right: 0;
       width: 94px;
       height: 94px;
-      background: radial-gradient(circle, rgba(28, 187, 238, 0.2), transparent 66%);
+      background: rgba(28, 187, 238, 0.14);
       pointer-events: none;
     }
 
@@ -284,7 +276,7 @@
       margin-bottom: 18px;
       border-radius: 16px;
       color: var(--blue-dark);
-      background: linear-gradient(135deg, var(--orange), var(--green));
+      background: var(--yellow);
       font-weight: 900;
       letter-spacing: -0.04em;
       box-shadow: 0 12px 26px rgba(243, 148, 48, 0.24);
@@ -295,10 +287,7 @@
       padding: clamp(24px, 3vw, 40px);
       border-radius: 28px;
       color: #FFFFFF;
-      background:
-        radial-gradient(circle at 16% 12%, rgba(243, 148, 48, 0.22), transparent 30%),
-        radial-gradient(circle at 86% 18%, rgba(129, 96, 164, 0.22), transparent 30%),
-        linear-gradient(135deg, var(--blue-dark), var(--blue));
+      background: var(--blue-dark);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
@@ -373,9 +362,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
       border-radius: 22px;
-      background:
-        linear-gradient(135deg, rgba(234, 242, 255, 0.9), rgba(255, 255, 255, 0.96)),
-        repeating-linear-gradient(45deg, rgba(18, 58, 112, 0.06) 0 10px, transparent 10px 20px);
+      background: var(--blue-soft);
       box-shadow: var(--shadow-soft);
       contain: paint;
     }
@@ -403,8 +390,7 @@
       position: relative;
       padding: 18px;
       border-radius: 32px;
-      background:
-        linear-gradient(135deg, #FFFFFF, #EAF2FF);
+      background: #FFFFFF;
       border: 1px solid rgba(18, 58, 112, 0.12);
       box-shadow: var(--shadow);
       contain: paint;
@@ -466,9 +452,7 @@
 
     .brand-card {
       min-height: 420px;
-      background:
-        linear-gradient(180deg, rgba(7, 10, 7, 0.26), rgba(7, 10, 7, 0.74)),
-        #070A07;
+      background: #070A07;
       color: #F7F3EA;
     }
 
@@ -623,7 +607,7 @@
 
     .flow__node--accent {
       border-color: rgba(242, 201, 76, 0.72);
-      background: linear-gradient(135deg, #FFF8DD, #FFFFFF);
+      background: #FFF8DD;
     }
 
     .entity-map {
@@ -696,7 +680,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
       border-radius: 28px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(234, 247, 254, 0.86));
+      background: var(--blue-soft);
       box-shadow: var(--shadow);
       contain: paint;
     }
@@ -797,7 +781,7 @@
     }
 
     .screen-carousel__dot.is-active {
-      background: linear-gradient(90deg, var(--orange), var(--sky));
+      background: var(--orange);
     }
 
     .product-3d-layout {
@@ -843,7 +827,7 @@
       padding: 10px 14px;
       border-radius: 999px;
       color: #fff;
-      background: linear-gradient(135deg, var(--blue), var(--lilac));
+      background: var(--lilac);
       font-weight: 900;
       box-shadow: 0 16px 34px rgba(6, 58, 112, 0.28);
     }
@@ -920,6 +904,204 @@
       font-size: 16px;
     }
 
+    .tech-stack-map {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tech-stack-layer {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-left: 8px solid var(--blue);
+      border-radius: 18px;
+      background: var(--blue-soft);
+    }
+
+    .tech-stack-layer:nth-child(2) {
+      border-left-color: var(--sky);
+    }
+
+    .tech-stack-layer:nth-child(3) {
+      border-left-color: var(--green);
+    }
+
+    .tech-stack-layer:nth-child(4) {
+      border-left-color: var(--yellow);
+    }
+
+    .tech-stack-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      color: #FFFFFF;
+      background: var(--blue-dark);
+      font-weight: 900;
+    }
+
+    .tech-stack-layer h3 {
+      margin: 0 0 4px;
+      color: var(--blue-dark);
+      font-size: 20px;
+    }
+
+    .tech-stack-layer p,
+    .tech-stack-layer span {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .tech-stack-layer span {
+      color: var(--blue);
+      font-family: var(--mono);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .data-visual {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 18px;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .entity-map--compact {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .entity-map--compact .entity {
+      min-height: 132px;
+      padding: 16px;
+    }
+
+    .entity-map--compact .entity strong {
+      margin-bottom: 8px;
+      font-size: clamp(15px, 1.05vw, 18px);
+    }
+
+    .entity-map--compact .entity p {
+      font-size: clamp(13px, 0.9vw, 15px);
+      line-height: 1.36;
+    }
+
+    .schema-board {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #FFFFFF;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .schema-board h3 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(22px, 1.6vw, 28px);
+    }
+
+    .schema-links {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .schema-link {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) 92px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .schema-link strong,
+    .schema-link span {
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .schema-link strong {
+      color: #FFFFFF;
+      background: var(--blue-dark);
+    }
+
+    .schema-link span {
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      border: 1px solid var(--border);
+    }
+
+    .schema-line {
+      height: 4px;
+      border-radius: 999px;
+      background: var(--yellow);
+    }
+
+    .pipeline-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .pipeline-steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pipeline-step {
+      min-height: 116px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--blue-soft);
+    }
+
+    .pipeline-step strong {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      color: #FFFFFF;
+      background: var(--blue);
+      font-size: 14px;
+    }
+
+    .pipeline-step h3 {
+      margin: 0 0 6px;
+      color: var(--blue-dark);
+      font-size: 18px;
+    }
+
+    .pipeline-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
     .mini-bars {
       display: grid;
       gap: 10px;
@@ -938,7 +1120,7 @@
       display: block;
       height: 14px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--blue), var(--yellow));
+      background: var(--blue);
     }
 
     .mockup-pair {
@@ -1022,7 +1204,7 @@
       height: 8px;
       margin: 18px 0;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--yellow), var(--blue));
+      background: var(--yellow);
     }
 
     .thanks {
@@ -1059,7 +1241,7 @@
       border: 0;
       border-radius: 999px;
       color: #FFFFFF;
-      background: linear-gradient(135deg, var(--blue), var(--lilac));
+      background: var(--blue);
       box-shadow: var(--shadow-soft);
       font-weight: 900;
       cursor: pointer;
@@ -1073,11 +1255,7 @@
       place-items: center;
       border-radius: 34px;
       color: #FFFFFF;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(243, 148, 48, 0.42), transparent 28%),
-        radial-gradient(circle at 84% 20%, rgba(28, 187, 238, 0.38), transparent 30%),
-        radial-gradient(circle at 50% 90%, rgba(149, 194, 67, 0.28), transparent 34%),
-        linear-gradient(135deg, var(--blue-dark), var(--blue), var(--lilac));
+      background: var(--blue-dark);
       opacity: 0;
       pointer-events: none;
       transform: scale(0.98);
@@ -1362,7 +1540,7 @@
             <p><strong>Студентка:</strong> Зайцева Дарья Денисовна</p>
             <p><strong>Кафедра:</strong> прикладной информатики</p>
             <p><strong>Специальность СПО:</strong> 09.02.07 Информационные системы и программирование</p>
-            <p><strong>Руководитель:</strong> А. С. Крузенюк</p>
+            <p><strong>Руководитель:</strong> А. С. Курзенок</p>
             <p><strong>Новосибирск, 16 мая 2026 г.</strong></p>
           </div>
         </div>
@@ -1688,11 +1866,27 @@
           </div>
           <div class="callout reveal">Распределенный характер проекта: интерфейс, логика и хранение данных разделены.</div>
         </div>
-        <div class="stack-list reveal">
-          <div class="stack-row"><strong>Static</strong><span>изображения, видео, 3D-модели, продуктовые ассеты</span></div>
-          <div class="stack-row"><strong>Modules</strong><span>catalog, product modal, account, cart, checkout, Fit Finder</span></div>
-          <div class="stack-row"><strong>Routes</strong><span>auth, products, cart, orders, newsletter</span></div>
-          <div class="stack-row"><strong>Deploy</strong><span>сборка клиента и запуск серверной части</span></div>
+        <div class="tech-stack-map reveal" aria-label="Схема слоев проекта">
+          <div class="tech-stack-layer">
+            <div class="tech-stack-icon">UI</div>
+            <div><h3>Интерфейс</h3><p>Слайды, каталог, карточка товара, корзина и профиль.</p></div>
+            <span>HTML/CSS/JS</span>
+          </div>
+          <div class="tech-stack-layer">
+            <div class="tech-stack-icon">API</div>
+            <div><h3>Обмен данными</h3><p>Единые JSON-запросы связывают клиентскую и серверную части.</p></div>
+            <span>Express</span>
+          </div>
+          <div class="tech-stack-layer">
+            <div class="tech-stack-icon">DB</div>
+            <div><h3>Хранение</h3><p>Пользователи, товары, корзина, заявки и подписка сохраняются в базе.</p></div>
+            <span>Prisma</span>
+          </div>
+          <div class="tech-stack-layer">
+            <div class="tech-stack-icon">A</div>
+            <div><h3>Ассеты</h3><p>Изображения, видео и GLB-модели подключаются как статические файлы.</p></div>
+            <span>public/</span>
+          </div>
         </div>
       </div>
     </section>
@@ -1706,7 +1900,8 @@
         </div>
         <div class="slide-number">10</div>
       </header>
-      <div class="slide__body entity-map">
+      <div class="slide__body data-visual">
+        <div class="entity-map entity-map--compact">
         <article class="card entity reveal" data-tip="Профиль хранит параметры тела и предпочтительную посадку.">
           <strong>User / UserProfile</strong>
           <p>Аккаунт, авторизация, сохраненные параметры и персонализация.</p>
@@ -1731,6 +1926,17 @@
           <strong>NewsletterSubscriber</strong>
           <p>Подписчики рассылки и согласие на маркетинговые сообщения.</p>
         </article>
+        </div>
+        <aside class="schema-board reveal" aria-label="Связи таблиц базы данных">
+          <h3>Как связаны данные</h3>
+          <div class="schema-links">
+            <div class="schema-link"><strong>User</strong><i class="schema-line"></i><span>Profile</span></div>
+            <div class="schema-link"><strong>User</strong><i class="schema-line"></i><span>CartItem</span></div>
+            <div class="schema-link"><strong>Product</strong><i class="schema-line"></i><span>CartItem</span></div>
+            <div class="schema-link"><strong>Order</strong><i class="schema-line"></i><span>OrderItem</span></div>
+            <div class="schema-link"><strong>Product</strong><i class="schema-line"></i><span>OrderItem</span></div>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -1796,15 +2002,14 @@
             <div class="flow__node"><h3>GLB</h3><p>загрузка модели</p></div>
             <div class="flow__node flow__node--accent"><h3>Интерфейс</h3><p>отображение</p></div>
           </div>
-          <article class="card reveal">
-            <h3>Коротко о реализации</h3>
-            <ul>
-              <li>модели загружаются в формате GLB;</li>
-              <li>для отображения используется Three.js;</li>
-              <li>модель нормализуется по размеру;</li>
-              <li>сцена запускается только в области видимости;</li>
-              <li>учитываются слабые устройства и reduced motion.</li>
-            </ul>
+          <article class="card pipeline-card reveal">
+            <h3>Пайплайн 3D-просмотра</h3>
+            <div class="pipeline-steps">
+              <div class="pipeline-step"><strong>1</strong><h3>Карточка</h3><p>Пользователь открывает товар с привязанной моделью.</p></div>
+              <div class="pipeline-step"><strong>2</strong><h3>GLB</h3><p>Файл модели загружается только при необходимости.</p></div>
+              <div class="pipeline-step"><strong>3</strong><h3>Сцена</h3><p>Three.js нормализует объект и выставляет камеру.</p></div>
+              <div class="pipeline-step"><strong>4</strong><h3>Стоп</h3><p>Рендер останавливается вне области видимости.</p></div>
+            </div>
           </article>
           <article class="card reveal">
             <h3>Оптимизация</h3>
